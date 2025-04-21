@@ -18,7 +18,7 @@ const Navbar = () => {
           alt="Usuario"
           className="h-10 w-10 rounded-full object-cover border-2 border-transparent group-hover:border-emerald-400 transition-all"
         />
-        <span className="text-sm font-medium text-white">Pedro Quintero</span>
+        <span className="text-sm font-medium text-white">Gabo Rosendorf</span>
         <FiChevronDown className="text-gray-400 group-hover:text-emerald-400 transition-colors" />
 
         {/* Dropdown Menu */}

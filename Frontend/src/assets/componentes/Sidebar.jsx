@@ -29,11 +29,14 @@ const Sidebar = () => {
       transition={{ duration: 0.4 }}
       className="w-64 min-h-screen p-6 bg-[#1B1B1B] border-r border-[#2F2F2F] shadow-md"
     >
-      {/* Logo */}
-      <div className="mb-10">
-        <h1 className="text-3xl font-bold text-emerald-400 tracking-wide">OXI</h1>
-        <p className="text-sm text-emerald-300">Carbon Footprint Manager</p>
-      </div>
+     <div className="mb-10">
+  <img
+    src="/oxilogo.png"
+    alt="OXI Logo"
+    className="w-36 h-auto object-contain mx-auto"
+  />
+  <p className="text-sm text-center text-emerald-300 mt-2">Carbon Footprint Manager</p>
+</div>
 
       {/* Navegación */}
       <nav className="space-y-6">
