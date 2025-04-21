@@ -11,7 +11,17 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.technovision.app.businessdomain</groupId>
     <artifactId>businessdomain</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>user-service/user-service</module>
+        <module>data-calculator-service/data-calculator-service</module>
+        <module>prediction-service/prediction-service</module>
+    </modules>
 
     <dependencies>
         <!-- Spring Boot Web -->

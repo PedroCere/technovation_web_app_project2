@@ -11,7 +11,17 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.technovision.app.infraestructuredomain</groupId>
     <artifactId>infraestructuredomain</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>config-server/config-server</module>
+        <module>eureka-server/eureka-server</module>
+        <module>gateway-service/gateway-service</module>
+    </modules>
 
     <dependencies>
         <!-- Spring Boot Web -->
