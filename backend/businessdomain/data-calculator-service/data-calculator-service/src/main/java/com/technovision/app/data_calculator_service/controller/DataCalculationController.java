@@ -1,0 +1,74 @@
+package com.technovision.app.data_calculator_service.controller;
+
+import com.technovision.app.data_calculator_service.dto.*;
+import com.technovision.app.data_calculator_service.service.DataCalculationService;
+import com.technovision.app.data_calculator_service.service.DataInputService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.UUID;
+
+@RestController
+@RequestMapping("/api/data")
+@RequiredArgsConstructor
+public class DataCalculationController {
+
+    private final DataInputService dataInputService;
+    private final DataCalculationService calculationService;
+
+
+    @GetMapping("/api/test-ping")
+    public ResponseEntity<String> pingGoogle() {
+        try {
+            URL url = new URL("https://google.com");
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("GET");
+            int code = con.getResponseCode();
+            return ResponseEntity.ok("Google respondió con código: " + code);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/entry")
+    public ResponseEntity<UnifiedEntryResponse> addUnifiedEntry(@RequestBody @Valid UnifiedDataEntryRequest request) {
+        dataInputService.saveUnifiedEntry(request);
+        return ResponseEntity.ok(new UnifiedEntryResponse("Datos unificados registrados correctamente."));
+    }
+
+
+    //Cálculo total de emisiones
+    @GetMapping("/emissions/calculate")
+    public ResponseEntity<EmissionCalculationResponse> calculateEmissions(@RequestParam UUID userId) {
+        EmissionCalculationResponse response = calculationService.calculateEmissions(userId);
+        return ResponseEntity.ok(response);
+    }
+
+}
+
+
+
+//    // Ingreso de energía
+//    @PostMapping("/energy")
+//    public ResponseEntity<String> addEnergyData(@RequestBody @Valid EnergyDataRequest request) {
+//        dataInputService.saveEnergyData(request);
+//        return ResponseEntity.ok("Energía registrada correctamente.");
+//    }
+//
+//    // Ingreso de transporte
+//    @PostMapping("/transport")
+//    public ResponseEntity<String> addTransportData(@RequestBody @Valid TransportDataRequest request) {
+//        dataInputService.saveTransportData(request);
+//        return ResponseEntity.ok("Transporte registrado correctamente.");
+//    }
+//
+//    // Ingreso de materiales
+//    @PostMapping("/materials")
+//    public ResponseEntity<String> addMaterialsData(@RequestBody @Valid MaterialsDataRequest request) {
+//        dataInputService.saveMaterialsData(request);
+//        return ResponseEntity.ok("Material registrado correctamente.");
+//    }
