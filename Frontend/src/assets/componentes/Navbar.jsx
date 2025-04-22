@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiChevronDown } from "react-icons/fi";
-import { FaSearch, FaBell, FaSun } from "react-icons/fa";
+import { FaBell, FaSun } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
@@ -14,6 +14,29 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
       className="h-16 flex items-center justify-between px-6 md:px-8 bg-[#1B1B1B] border-b border-[#2F2F2F] shadow-sm"
     >
+      {/* Logo */}
+      <motion.img
+        src="/oxilogo.png"
+        alt="OXI Logo"
+        initial={{ width: 48 }}
+        animate={{ width: 48 }}
+        transition={{ duration: 0.3 }}
+        className="mr-4"
+      />
+
+      {/* Left Actions */}
+      <div className="flex items-center gap-4">
+        {/* Notification */}
+        <button className="text-gray-400 hover:text-white transition">
+          <FaBell />
+        </button>
+
+        {/* Theme */}
+        <button className="text-gray-400 hover:text-yellow-400 transition">
+          <FaSun />
+        </button>
+      </div>
+
       {/* User + Dropdown */}
       <div className="flex items-center gap-4 relative cursor-pointer">
         <div className="relative" onClick={toggleMenu}>
@@ -36,7 +59,7 @@ const Navbar = () => {
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -5 }}
-              className="absolute top-14 left-0 w-48 bg-[#252525] rounded-lg shadow-xl z-50 border border-[#2F2F2F]"
+              className="absolute top-14 right-0 w-48 bg-[#252525] rounded-lg shadow-xl z-50 border border-[#2F2F2F]"
             >
               <div className="py-2">
                 <button className="w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-emerald-400/10 transition-all">
@@ -49,29 +72,6 @@ const Navbar = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-
-      {/* Right Actions */}
-      <div className="flex items-center gap-4">
-        {/* Notification */}
-        <button className="text-gray-400 hover:text-white transition">
-          <FaBell />
-        </button>
-
-        {/* Theme */}
-        <button className="text-gray-400 hover:text-yellow-400 transition">
-          <FaSun />
-        </button>
-
-        {/* Search */}
-        <div className="flex items-center bg-[#252525] px-4 py-2 rounded-md border border-[#2F2F2F] hover:border-emerald-400 transition-colors">
-          <FaSearch className="text-gray-400 mr-2" />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="bg-transparent outline-none text-sm placeholder-gray-500 text-white w-40 focus:w-60 transition-all duration-300"
-          />
-        </div>
       </div>
     </motion.header>
   );

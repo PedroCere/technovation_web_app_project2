@@ -2,6 +2,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import ChatBot from "./ChatBot";
 
 const Settings = () => {
   return (
@@ -127,10 +128,14 @@ const Settings = () => {
             <button className="px-6 py-2 bg-emerald-400 hover:bg-emerald-500 text-white rounded-lg transition-all">
               Save All Changes
             </button>
+        
           </div>
         </motion.main>
-      </div>
+    
+        </div>
+      <ChatBot />
     </div>
+    
   );
 };
 

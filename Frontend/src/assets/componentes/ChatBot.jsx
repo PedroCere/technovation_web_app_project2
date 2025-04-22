@@ -90,7 +90,7 @@ const ChatBot = () => {
         animate={floatingAnimation}
       >
         <img
-          src="/oxilogo.png"
+          src="/logosolo.png"
           alt="OXI Logo"
           className="w-32 h-32 transform hover:scale-105 transition-transform"
           draggable={false}
