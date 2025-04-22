@@ -7,6 +7,7 @@ import Predictions from './assets/componentes/Predictions';
 import Preferences from './assets/componentes/Preferences';
 import Account from './assets/componentes/Account';
 import Settings from './assets/componentes/Settings';
+import EntrySelector from './assets/componentes/EntrySelector';
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<EntrySelector />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/carbon" element={<Carbon />} />
         <Route path="/predictions" element={<Predictions />} />
