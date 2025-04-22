@@ -1,5 +1,4 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
@@ -16,14 +15,26 @@ import {
 import ChatBot from "./ChatBot";
 import { clickSound, successSound } from "../../utils/sounds";
 
-const Dashboard = () => {
+const Dashboard = ({ soundEnabled: soundEnabledProp = false }) => {
   ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
   const [soundEnabled, setSoundEnabled] = useState(false);
 
+  useEffect(() => {
+    if (soundEnabledProp) {
+      setSoundEnabled(true);
+    } else {
+      const savedSoundEnabled = localStorage.getItem("soundEnabled");
+      if (savedSoundEnabled === "true") {
+        setSoundEnabled(true);
+      }
+    }
+  }, [soundEnabledProp]);
+
   const enableSound = () => {
     successSound.play();
     setSoundEnabled(true);
+    localStorage.setItem("soundEnabled", "true");
   };
 
   const chartData = {
@@ -122,7 +133,7 @@ const Dashboard = () => {
             </h2>
             <p className="text-sm md:text-base text-emerald-200/80 mt-2">{formattedDate}</p>
           </motion.div>
-          
+
           {/* Task Columns */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10">
             {[
@@ -186,8 +197,9 @@ const Dashboard = () => {
               </motion.section>
             ))}
           </div>
-{/* Info Cards */}
-<div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-10">
+
+          {/* Info Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-10">
             {/* AI Recommendations */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -246,24 +258,23 @@ const Dashboard = () => {
             </motion.div>
           </div>
 
-            {/* Chart Section */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1 }}
-              className="bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-400/20"
-            >
-              <h3 className="text-lg font-semibold text-white mb-4">📊 Emission Trends</h3>
-              <div className="h-64">
-                <Line data={chartData} options={chartOptions} />
-              </div>
-            </motion.div>
-          </main>
-        </div>
-        <ChatBot />
+          {/* Chart Section */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-400/20"
+          >
+            <h3 className="text-lg font-semibold text-white mb-4">📊 Emission Trends</h3>
+            <div className="h-64">
+              <Line data={chartData} options={chartOptions} />
+            </div>
+          </motion.div>
+        </main>
       </div>
+      <ChatBot />
+    </div>
   );
 };
 
 export default Dashboard;
-

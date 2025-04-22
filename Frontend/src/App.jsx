@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Home from './assets/componentes/Home';
 import Dashboard from './assets/componentes/Dashboard';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -8,29 +8,87 @@ import Preferences from './assets/componentes/Preferences';
 import Account from './assets/componentes/Account';
 import Settings from './assets/componentes/Settings';
 import EntrySelector from './assets/componentes/EntrySelector';
-
+import Loading from './assets/componentes/Loading';
+import LoadingTransition from './assets/componentes/LoadingTransition';
+import { successSound } from './utils/sounds';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+  const [transitioning, setTransitioning] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(false);
+  const [minLoadingElapsed, setMinLoadingElapsed] = useState(false);
+
   useEffect(() => {
     document.title = 'OXI';
+    const savedSoundEnabled = localStorage.getItem("soundEnabled");
+    if (savedSoundEnabled === "true") {
+      setSoundEnabled(true);
+      setLoading(false);
+      setLoaded(true); // Show dashboard immediately if sound enabled
+    } else {
+      const timer = setTimeout(() => {
+        setMinLoadingElapsed(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
   }, []);
-  return (
-    <Router>
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        <Route path="/" element={<EntrySelector />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/carbon" element={<Carbon />} />
-        <Route path="/predictions" element={<Predictions />} />
-        <Route path="/preferences" element={<Preferences />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/settings" element={<Settings />} />
 
+  useEffect(() => {
+    if (soundEnabled && minLoadingElapsed) {
+      setLoading(false);
+      setTransitioning(true);
+    } else if (!soundEnabled) {
+      setLoading(true);
+    }
+  }, [soundEnabled, minLoadingElapsed]);
 
-      </Routes>
-    </Router>
-  );
+  const enableSound = () => {
+    successSound.play();
+    setSoundEnabled(true);
+    localStorage.setItem("soundEnabled", "true");
+    setLoading(false);
+    setTransitioning(true);
+  };
+
+  const handleTransitionComplete = () => {
+    setTransitioning(false);
+    setLoaded(true);
+  };
+
+  if (loading) {
+    return <Loading enableSound={enableSound} />;
+  }
+
+  if (transitioning) {
+    return (
+      <>
+        <Router>
+          <Dashboard soundEnabled={soundEnabled} enableSound={enableSound} />
+        </Router>
+        <LoadingTransition onComplete={handleTransitionComplete} />
+      </>
+    );
+  }
+
+  if (loaded) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<EntrySelector />} />
+          <Route path="/dashboard" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} />} />
+          <Route path="/carbon" element={<Carbon />} />
+          <Route path="/predictions" element={<Predictions />} />
+          <Route path="/preferences" element={<Preferences />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </Router>
+    );
+  }
+
+  return null;
 }
-
 
 export default App;
