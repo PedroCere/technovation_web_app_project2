@@ -47,15 +47,7 @@ const Sidebar = () => {
       className="h-screen bg-[#1B1B1B] border-r border-[#2F2F2F] backdrop-blur-md shadow-xl overflow-hidden relative flex flex-col shrink-0"
     >
       <div className="p-4 w-full">
-        <div className="mb-10 flex justify-center">
-          <motion.img
-            src="/oxilogo.png"
-            alt="OXI Logo"
-            initial={{ width: 32 }}
-            animate={{ width: isHovered ? 120 : 32 }}
-            transition={{ duration: 0.3 }}
-          />
-        </div>
+        {/* Logo removed as per user request */}
 
         <nav className="space-y-6">
           <section>
