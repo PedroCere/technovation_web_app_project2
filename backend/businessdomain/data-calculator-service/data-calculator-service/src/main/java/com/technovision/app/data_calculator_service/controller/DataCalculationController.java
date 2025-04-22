@@ -19,20 +19,7 @@ public class DataCalculationController {
 
     private final DataInputService dataInputService;
     private final DataCalculationService calculationService;
-
-
-    @GetMapping("/api/test-ping")
-    public ResponseEntity<String> pingGoogle() {
-        try {
-            URL url = new URL("https://google.com");
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            int code = con.getResponseCode();
-            return ResponseEntity.ok("Google respondió con código: " + code);
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body("Error: " + e.getMessage());
-        }
-    }
+    
 
     @PostMapping("/entry")
     public ResponseEntity<UnifiedEntryResponse> addUnifiedEntry(@RequestBody @Valid UnifiedDataEntryRequest request) {
