@@ -11,7 +11,7 @@ const Navbar = () => {
       transition={{ duration: 0.5 }}
       className="h-16 flex items-center justify-between px-6 md:px-8 bg-[#1B1B1B] border-b border-[#2F2F2F] shadow-sm"
     >
-      {/* Usuario */}
+      {}
       <div className="flex items-center gap-4 relative group cursor-pointer">
         <img
           src="/foto_usuario.jpg"
@@ -21,7 +21,7 @@ const Navbar = () => {
         <span className="text-sm font-medium text-white">Gabo Rosendorf</span>
         <FiChevronDown className="text-gray-400 group-hover:text-emerald-400 transition-colors" />
 
-        {/* Dropdown Menu */}
+        {}
         <div className="absolute top-14 left-0 w-48 bg-[#252525] rounded-lg shadow-xl opacity-0 group-hover:opacity-100 group-hover:visible transition-all duration-300 invisible z-50 border border-[#2F2F2F]">
           <div className="py-2">
             <button className="w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-emerald-400/10 transition-all">
@@ -34,7 +34,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Search */}
+      {}
       <div className="flex items-center bg-[#252525] px-4 py-2 rounded-md border border-[#2F2F2F] hover:border-emerald-400 transition-colors">
         <FaSearch className="text-gray-400 mr-2" />
         <input

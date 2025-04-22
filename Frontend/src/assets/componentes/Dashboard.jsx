@@ -118,8 +118,7 @@ const chartOptions = {
             </p>
           </motion.div>
 
-          {/* Summary Cards */}
-          {/* Keep these titles translated: Weekly Activity, Active Projects */}
+   
 
           {/* Task Columns */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-10">
