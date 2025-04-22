@@ -12,7 +12,7 @@ import {
 const navLinks = [
   { icon: <FaChartLine />, label: "Dashboard", active: true },
   { icon: <FaLeaf />, label: "Carbon Analysis" },
-  { icon: <FaProjectDiagram />, label: "Projects" },
+  { icon: <FaProjectDiagram />, label: "Predictions" },
 ];
 
 const settingsLinks = [
@@ -38,7 +38,7 @@ const Sidebar = () => {
   <p className="text-sm text-center text-emerald-300 mt-2">Carbon Footprint Manager</p>
 </div>
 
-      {/* Navegación */}
+      {}
       <nav className="space-y-6">
         <section>
           <h3 className="text-xs uppercase text-gray-400 tracking-widest mb-3">Navigation</h3>
