@@ -15,7 +15,7 @@ import {
 import ChatBot from "./ChatBot";
 import { clickSound, successSound } from "../../utils/sounds";
 
-const Dashboard = ({ soundEnabled: soundEnabledProp = false }) => {
+const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = false }) => {
   ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -111,7 +111,12 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans">
+    <motion.div
+      initial={{ opacity: transitioning ? 0 : 1 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans"
+    >
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Navbar />
@@ -273,7 +278,7 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false }) => {
         </main>
       </div>
       <ChatBot />
-    </div>
+    </motion.div>
   );
 };
 
