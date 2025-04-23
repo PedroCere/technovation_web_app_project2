@@ -82,7 +82,6 @@ const ChatBot = () => {
 
   return (
     <>
-      {/* Botón flotante */}
       <motion.button
         onClick={toggleChat}
         aria-label="Toggle chat bot"
@@ -97,7 +96,6 @@ const ChatBot = () => {
         />
       </motion.button>
 
-      {/* Tooltip "Ask OXI" */}
       <AnimatePresence>
         {showTooltip && !isOpen && (
           <motion.div
@@ -117,7 +115,6 @@ const ChatBot = () => {
         )}
       </AnimatePresence>
 
-      {/* Ventana de chat */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -127,7 +124,6 @@ const ChatBot = () => {
             transition={{ duration: 0.3 }}
             className="fixed bottom-44 right-10 w-80 max-w-full bg-[#121212] rounded-xl shadow-2xl flex flex-col z-50 border border-gray-700 overflow-hidden"
           >
-            {/* Header */}
             <div className="p-4 border-b border-gray-700 flex justify-between items-center bg-gray-900">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
@@ -141,7 +137,6 @@ const ChatBot = () => {
               </button>
             </div>
 
-            {/* Mensajes */}
             <div className="flex-1 p-4 overflow-y-auto max-h-96 space-y-3 bg-gray-800/50">
               {messages.map((msg, idx) => (
                 <div
@@ -176,7 +171,6 @@ const ChatBot = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            {/* Input */}
             <form onSubmit={sendMessage} className="p-3 border-t border-gray-700 bg-gray-900">
               <div className="relative flex gap-2">
                 <textarea
