@@ -19,7 +19,7 @@ public class DataCalculationController {
 
     private final DataInputService dataInputService;
     private final DataCalculationService calculationService;
-    
+
 
     @PostMapping("/entry")
     public ResponseEntity<UnifiedEntryResponse> addUnifiedEntry(@RequestBody @Valid UnifiedDataEntryRequest request) {
