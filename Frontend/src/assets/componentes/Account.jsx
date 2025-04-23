@@ -16,7 +16,6 @@ const Account = () => {
           animate={{ opacity: 1 }}
           className="flex-1 p-6 md:p-8 overflow-y-auto"
         >
-          {/* Header */}
           <div className="mb-10">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
               Account Settings
@@ -26,7 +25,6 @@ const Account = () => {
             </p>
           </div>
 
-          {/* Profile Section */}
           <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20 mb-6">
             <h3 className="text-lg font-semibold text-emerald-400 mb-4">👤 Profile</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -57,7 +55,6 @@ const Account = () => {
             </div>
           </div>
 
-          {/* Security Section */}
           <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20 mb-6">
             <h3 className="text-lg font-semibold text-emerald-400 mb-4">🔒 Security</h3>
             <div className="space-y-4">
@@ -84,7 +81,6 @@ const Account = () => {
             </div>
           </div>
 
-          {/* Danger Zone */}
           <div className="bg-[#1E1E1E] p-6 rounded-xl border border-rose-400/20">
             <h3 className="text-lg font-semibold text-rose-400 mb-4">⚠️ Danger Zone</h3>
             <div className="space-y-4">

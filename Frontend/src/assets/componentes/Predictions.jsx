@@ -27,7 +27,6 @@ ChartJS.register(
 );
 
 const Predictions = () => {
-  // Common chart configuration
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -65,7 +64,6 @@ const Predictions = () => {
     }
   };
 
-  // Chart data
   const lineData = {
     labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [
@@ -102,7 +100,6 @@ const Predictions = () => {
     ]
   };
 
-  // Animation configurations
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -132,7 +129,6 @@ const Predictions = () => {
           variants={containerVariants}
           className="flex-1 p-6 md:p-8 overflow-y-auto"
         >
-          {/* Header Section */}
           <motion.div
             variants={itemVariants}
             className="mb-10"
@@ -145,9 +141,7 @@ const Predictions = () => {
             </p>
           </motion.div>
 
-          {/* Charts Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-            {/* Line Chart */}
             <motion.div
               variants={itemVariants}
               className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20"
@@ -174,7 +168,6 @@ const Predictions = () => {
               </div>
             </motion.div>
 
-            {/* Bar Chart */}
             <motion.div
               variants={itemVariants}
               className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20"
@@ -202,7 +195,6 @@ const Predictions = () => {
             </motion.div>
           </div>
 
-          {/* Recommendations Section */}
           <motion.div
             variants={itemVariants}
             className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20"
@@ -234,7 +226,6 @@ const Predictions = () => {
             </div>
           </motion.div>
 
-          {/* Scenarios Section */}
           <motion.div
             variants={itemVariants}
             className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8"

@@ -16,7 +16,7 @@ const Preferences = () => {
           animate={{ opacity: 1 }}
           className="flex-1 p-6 md:p-8 overflow-y-auto"
         >
-          {/* Header */}
+
           <div className="mb-10">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
               Preferences
@@ -26,9 +26,9 @@ const Preferences = () => {
             </p>
           </div>
 
-          {/* Content Grid */}
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Theme Customization */}
+
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">🎨 Theme</h3>
               <div className="space-y-4">
@@ -51,7 +51,7 @@ const Preferences = () => {
               </div>
             </div>
 
-            {/* Language & Region */}
+
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">🌐 Language & Region</h3>
               <div className="space-y-4">
@@ -75,7 +75,7 @@ const Preferences = () => {
               </div>
             </div>
 
-            {/* Notification Preferences */}
+
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">🔔 Notifications</h3>
               <div className="space-y-4">
@@ -97,7 +97,6 @@ const Preferences = () => {
               </div>
             </div>
 
-            {/* Data Preferences */}
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">📊 Data Collection</h3>
               <div className="space-y-4">
@@ -120,7 +119,7 @@ const Preferences = () => {
             </div>
           </div>
 
-          {/* Save Button */}
+
           <div className="mt-8 flex justify-end">
             <button className="px-6 py-2 bg-emerald-400 hover:bg-emerald-500 text-white rounded-lg transition-all">
               Save Changes

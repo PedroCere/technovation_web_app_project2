@@ -39,15 +39,14 @@ const Sidebar = () => {
   };
 
   return (
-    <motion.div
+<motion.div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       animate={{ width: isHovered ? 256 : 64 }}
       transition={{ type: "spring", stiffness: 260, damping: 20 }}
-      className="h-screen bg-[#1B1B1B] border-r border-[#2F2F2F] backdrop-blur-md shadow-xl overflow-hidden relative flex flex-col shrink-0"
+      className="h-screen bg-[#1B1B1B] border-r border-[#2F2F2F] backdrop-blur-md shadow-xl overflow-hidden relative flex flex-col shrink-0 z-50"
     >
       <div className="p-4 w-full">
-        {/* Logo removed as per user request */}
 
         <nav className="space-y-6">
           <section>
