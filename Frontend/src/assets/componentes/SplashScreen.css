@@ -1,0 +1,3 @@
+.no-opacity-transition {
+  transition-property: none !important;
+}
