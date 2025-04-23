@@ -17,7 +17,7 @@ const Settings = () => {
           animate={{ opacity: 1 }}
           className="flex-1 p-6 md:p-8 overflow-y-auto"
         >
-          {/* Header */}
+
           <div className="mb-10">
             <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
               Application Settings
@@ -27,9 +27,7 @@ const Settings = () => {
             </p>
           </div>
 
-          {/* Main Content */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* General Settings */}
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">⚙️ General</h3>
               <div className="space-y-4">
@@ -52,7 +50,6 @@ const Settings = () => {
               </div>
             </div>
 
-            {/* Privacy Settings */}
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">🛡️ Privacy</h3>
               <div className="space-y-4">
@@ -74,7 +71,6 @@ const Settings = () => {
               </div>
             </div>
 
-            {/* Advanced Settings */}
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">🧠 Advanced</h3>
               <div className="space-y-4">
@@ -97,7 +93,6 @@ const Settings = () => {
               </div>
             </div>
 
-            {/* Integration Settings */}
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">🔗 Integrations</h3>
               <div className="space-y-4">
@@ -120,7 +115,6 @@ const Settings = () => {
             </div>
           </div>
 
-          {/* Footer Actions */}
           <div className="mt-8 flex justify-end gap-4">
             <button className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all">
               Reset Defaults
