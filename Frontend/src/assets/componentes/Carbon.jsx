@@ -14,7 +14,6 @@ import {
   Legend
 } from "chart.js";
 
-// Register ChartJS modules
 ChartJS.register(
   ArcElement,
   LineElement,
@@ -94,7 +93,6 @@ const Carbon = () => {
         <Navbar />
 
         <main className="flex-1 p-6 md:p-8 overflow-y-auto">
-          {/* Page title */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -107,9 +105,7 @@ const Carbon = () => {
             </p>
           </motion.div>
 
-          {/* Chart Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-            {/* Line Chart */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -122,7 +118,6 @@ const Carbon = () => {
               </div>
             </motion.div>
 
-            {/* Pie Chart */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -136,7 +131,6 @@ const Carbon = () => {
             </motion.div>
           </div>
 
-          {/* Month-over-month Comparison Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             {[
               { label: "January", value: "5.1 tCO₂" },
@@ -156,7 +150,6 @@ const Carbon = () => {
             ))}
           </div>
 
-          {/* Emission Source Manager */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

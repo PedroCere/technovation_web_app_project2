@@ -23,7 +23,7 @@ export default function LoadingTransition({ onComplete }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onComplete();
-    }, 1500); // 1.5 seconds duration for transition
+    }, 1500); 
     return () => clearTimeout(timer);
   }, [onComplete]);
 
