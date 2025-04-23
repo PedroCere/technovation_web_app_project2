@@ -60,31 +60,26 @@ function App() {
     return <Loading enableSound={enableSound} />;
   }
 
-  if (transitioning) {
-    return (
-      <>
-        <Router>
-          <Dashboard soundEnabled={soundEnabled} enableSound={enableSound} />
-        </Router>
-        <LoadingTransition onComplete={handleTransitionComplete} />
-      </>
-    );
-  }
+  // Remove the transitioning conditional return block entirely
+  // Instead, always render Dashboard inside Routes with transitioning prop
 
   if (loaded) {
     return (
-      <Router>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/" element={<EntrySelector />} />
-          <Route path="/dashboard" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} />} />
-          <Route path="/carbon" element={<Carbon />} />
-          <Route path="/predictions" element={<Predictions />} />
-          <Route path="/preferences" element={<Preferences />} />
-          <Route path="/account" element={<Account />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </Router>
+      <>
+        <Router>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<EntrySelector />} />
+            <Route path="/dashboard" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} transitioning={transitioning} />} />
+            <Route path="/carbon" element={<Carbon />} />
+            <Route path="/predictions" element={<Predictions />} />
+            <Route path="/preferences" element={<Preferences />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </Router>
+        {transitioning && <LoadingTransition onComplete={handleTransitionComplete} />}
+      </>
     );
   }
 
