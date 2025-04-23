@@ -15,7 +15,7 @@ import {
 import ChatBot from "./ChatBot";
 import { clickSound, successSound } from "../../utils/sounds";
 
-const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = false }) => {
+const Dashboard = ({ soundEnabled: soundEnabledProp = false, disableInitialAnimation = false }) => {
   ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, Tooltip, Legend);
 
   const [soundEnabled, setSoundEnabled] = useState(false);
@@ -111,12 +111,7 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
   };
 
   return (
-    <motion.div
-      initial={{ opacity: transitioning ? 0 : 1 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans"
-    >
+    <div className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans">
       <Sidebar />
       <div className="flex-1 flex flex-col">
         <Navbar />
@@ -141,7 +136,7 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
 
           {/* Task Columns */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10">
-            {[
+          {[
               {
                 title: "To Do",
                 icon: "📌",
@@ -176,8 +171,8 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
               <motion.section
                 key={col.title}
                 custom={i}
-                initial="hidden"
-                animate="visible"
+                initial={disableInitialAnimation ? false : "hidden"}
+                animate={disableInitialAnimation ? false : "visible"}
                 variants={cardVariants}
                 className="bg-[#1E1E1E] p-5 md:p-6 rounded-xl border border-emerald-500/30 shadow-xl hover:bg-emerald-900/40 transition-all"
               >
@@ -203,9 +198,7 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
             ))}
           </div>
 
-          {/* Info Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 mb-10">
-            {/* AI Recommendations */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -227,7 +220,6 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
               </div>
             </motion.div>
 
-            {/* Environmental Progress */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -247,7 +239,6 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
               </div>
             </motion.div>
 
-            {/* Alerts */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -263,7 +254,6 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
             </motion.div>
           </div>
 
-          {/* Chart Section */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -278,7 +268,7 @@ const Dashboard = ({ soundEnabled: soundEnabledProp = false, transitioning = fal
         </main>
       </div>
       <ChatBot />
-    </motion.div>
+    </div>
   );
 };
 
