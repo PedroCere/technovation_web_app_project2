@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 const Home = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#004900] to-[#002800] text-white">
-      {/* Hero Section - Más grande con más espacio */}
+      {}
       <section className="container mx-auto px-6 py-32 md:py-40 text-center">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
@@ -37,10 +37,10 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Divider */}
+      {}
       <div className="border-t border-[#34C464]/30 mx-20 my-20"></div>
 
-      {/* Features Section - Más grande con mejor jerarquía */}
+      {}
       <section className="container mx-auto px-6 py-28">
         <motion.div
           initial={{ opacity: 0 }}
@@ -91,10 +91,10 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Divider */}
+      {}
       <div className="border-t border-[#34C464]/30 mx-20 my-20"></div>
 
-      {/* Testimonials Section - Más destacada */}
+      {}
       <section className="container mx-auto px-6 py-32">
         <motion.div
           initial={{ opacity: 0 }}
@@ -126,10 +126,10 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {/* Divider */}
+      {}
       <div className="border-t border-[#34C464]/30 mx-20 my-20"></div>
 
-      {/* Final CTA Section - Más prominente */}
+      {}
       <section className="container mx-auto px-6 py-32 text-center">
         <motion.div
           initial={{ opacity: 0 }}
