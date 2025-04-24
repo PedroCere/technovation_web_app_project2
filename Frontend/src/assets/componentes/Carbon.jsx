@@ -1,126 +1,245 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Pie, Bar } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from "chart.js";
 import { motion } from "framer-motion";
-import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
-import { Pie } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  ArcElement,
-  Tooltip,
-  Legend
-} from "chart.js";
-import { fetchEmissionData } from "../../utils/api";
+import Navbar from "./Navbar";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 const Carbon = () => {
-  const [emissionData, setEmissionData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const userId = "123e4567-e89b-12d3-a456-426614174345";
-
-  useEffect(() => {
-    fetchEmissionData(userId)
-      .then(data => {
-        console.log("✔ Emission data:", data);
-        setEmissionData(data);
-      })
-      .catch(err => {
-        console.error("❌ Error fetching emissions:", err);
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
-  if (loading) {
-    return <p className="text-white p-6">Loading emission data...</p>;
-  }
-
-  if (!emissionData || !emissionData.breakdown) {
-    return <p className="text-white p-6">No emission data available.</p>;
-  }
-
-  const { totalEmissionKg, breakdown } = emissionData;
+  const [breakdown, setBreakdown] = useState({
+    Energy: 615,
+    Transport: 265,
+    Materials: 225
+  });
 
   const pieData = {
     labels: Object.keys(breakdown),
     datasets: [
       {
-        label: "Emissions (kg)",
         data: Object.values(breakdown),
-        backgroundColor: [
-          "rgba(52, 211, 153, 0.6)",
-          "rgba(34, 197, 94, 0.6)",
-          "rgba(74, 222, 128, 0.6)",
-          "rgba(110, 231, 183, 0.6)"
-        ],
-        borderColor: "#1E1E1E"
+        backgroundColor: ["#34D399", "#4ADE80", "#10B981"],
+        borderColor: "#1F2937",
+        borderWidth: 2
       }
     ]
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans">
-      <Sidebar />
+  const simulatedMonthlyData = {
+    Energy: [580, 610, 620, 590, 600, 615],
+    Transport: [300, 310, 290, 280, 275, 265],
+    Materials: [250, 245, 240, 238, 230, 225]
+  };
 
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"];
+
+  const barData = {
+    labels: months,
+    datasets: Object.entries(simulatedMonthlyData).map(([label, data], idx) => ({
+      label,
+      data,
+      backgroundColor: ["#34D39999", "#4ADE8099", "#10B98199"][idx],
+      borderRadius: 4
+    }))
+  };
+
+  const topCategory = Object.entries(breakdown).reduce(
+    (prev, current) => (current[1] > prev[1] ? current : prev),
+    ["", 0]
+  );
+
+  return (
+    <div className="min-h-screen flex bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white">
+      <Sidebar />
       <div className="flex-1 flex flex-col">
         <Navbar />
 
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
+        <main className="flex-1 p-6 md:p-8">
+          <motion.h2
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="mb-10"
+            className="text-3xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent mb-8"
           >
-            <h2 className="text-3xl font-bold text-emerald-400">Carbon Analysis</h2>
-            <p className="text-sm text-gray-400 mt-1">
-              Emissions breakdown for your organization.
-            </p>
-          </motion.div>
+            Carbon Analysis
+          </motion.h2>
 
-          {/* Emissions Summary */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-500/20 mb-8"
-          >
-            <h3 className="text-lg font-semibold text-emerald-400 mb-4">📦 Total Emissions</h3>
-            <p className="text-4xl font-bold text-emerald-300">
-              {(totalEmissionKg / 1000).toFixed(2)} tCO₂
-            </p>
-          </motion.div>
-
-          {/* Emissions by Category (Pie + List) */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="flex flex-col md:flex-row md:space-x-6">
+            {/* Pie Chart */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-500/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-500/20 md:w-1/2"
             >
-              <h3 className="text-lg font-semibold text-emerald-400 mb-4 text-center">♻️ Emissions by Category</h3>
-              <div className="h-64 max-w-sm mx-auto">
-                <Pie data={pieData} options={{ responsive: true }} />
+              <h3 className="text-lg font-semibold text-emerald-400 mb-4">🌍 Emissions by Category</h3>
+              <div className="h-72">
+                <Pie data={pieData} />
               </div>
             </motion.div>
 
+            {/* Bar Chart */}
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-500/20"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-[#1E1E1E] p-6 mt-8 md:mt-0 rounded-xl shadow-xl border border-emerald-500/20 md:w-1/2"
             >
-              <h3 className="text-lg font-semibold text-emerald-400 mb-4">📊 Category Breakdown</h3>
-              <ul className="space-y-3">
-                {Object.entries(breakdown).map(([category, value], i) => (
-                  <li key={i} className="flex justify-between text-sm text-gray-300 border-b border-emerald-800/30 pb-2">
-                    <span>{category}</span>
-                    <span>{value.toFixed(1)} kg CO₂</span>
-                  </li>
-                ))}
-              </ul>
+              <h3 className="text-lg font-semibold text-emerald-400 mb-4">📅 Emissions per Month (Simulated)</h3>
+              <div className="h-64">
+                <Bar
+                  data={barData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        labels: { color: "#CCCCCC" }
+                      }
+                    },
+                    scales: {
+                      y: {
+                        ticks: { color: "#CCCCCC" },
+                        grid: { color: "#2F2F2F" }
+                      },
+                      x: {
+                        ticks: { color: "#CCCCCC" },
+                        grid: { color: "#2F2F2F" }
+                      }
+                    }
+                  }}
+                />
+              </div>
             </motion.div>
           </div>
+
+          {/* TOP CATEGORY */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mt-6 bg-[#1F1F1F] p-4 rounded-lg border border-emerald-400/10"
+          >
+            <p className="text-sm text-gray-400 mb-1">🏆 Top Emission Category</p>
+            <h4 className="text-xl font-bold text-emerald-300">{topCategory[0]}</h4>
+            <p className="text-xs text-gray-500 mt-1">
+              {topCategory[1].toFixed(1)} kg CO₂ emitted
+            </p>
+          </motion.div>
+
+          {/* SUMMARY STATISTICS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="mt-6 bg-[#1F1F1F] p-6 rounded-lg border border-emerald-400/10 shadow"
+          >
+            <h3 className="text-lg font-semibold text-emerald-400 mb-4">📊 Summary Statistics</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-300">
+              <div>
+                <p className="text-sm">Total Emissions</p>
+                <p className="text-2xl font-bold text-emerald-300">
+                  {Object.values(breakdown).reduce((a, b) => a + b, 0).toFixed(1)} kg CO₂
+                </p>
+              </div>
+              <div>
+                <p className="text-sm">Average Monthly Emissions (Simulated)</p>
+                <p className="text-2xl font-bold text-emerald-300">
+                  {(
+                    Object.values(simulatedMonthlyData).reduce(
+                      (sum, arr) => sum + arr.reduce((a, b) => a + b, 0),
+                      0
+                    ) /
+                    (months.length * Object.keys(simulatedMonthlyData).length)
+                  ).toFixed(1)}{" "}
+                  kg CO₂
+                </p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* EMISSION REDUCTION TIPS */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="mt-6 bg-[#1F1F1F] p-6 rounded-lg border border-emerald-400/10 shadow"
+          >
+            <h3 className="text-lg font-semibold text-emerald-400 mb-4">🧰 Emission Reduction Tips</h3>
+            <ul className="list-disc list-inside text-gray-300 space-y-2">
+              <li>Reduce energy consumption by using energy-efficient appliances.</li>
+              <li>Use public transport, carpool, or bike instead of driving alone.</li>
+              <li>Recycle and reuse materials to minimize waste.</li>
+              <li>Support renewable energy sources whenever possible.</li>
+              <li>Monitor and optimize your carbon footprint regularly.</li>
+            </ul>
+          </motion.div>
+
+          {/* ADDITIONAL CHART: Line Chart of Total Monthly Emissions */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-6 bg-[#1E1E1E] p-6 rounded-xl shadow-xl border border-emerald-500/20"
+          >
+            <h3 className="text-lg font-semibold text-emerald-400 mb-4">📈 Total Monthly Emissions (Simulated)</h3>
+            <div className="h-64">
+              <Bar
+                data={{
+                  labels: months,
+                  datasets: [
+                    {
+                      label: "Total Emissions",
+                      data: months.map(
+                        (_, i) =>
+                          simulatedMonthlyData.Energy[i] +
+                          simulatedMonthlyData.Transport[i] +
+                          simulatedMonthlyData.Materials[i]
+                      ),
+                      borderColor: "#34D399",
+                      backgroundColor: "rgba(52, 211, 153, 0.5)",
+                      fill: true,
+                      tension: 0.3,
+                      borderWidth: 2,
+                      pointRadius: 3
+                    }
+                  ]
+                }}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      labels: { color: "#CCCCCC" }
+                    }
+                  },
+                  scales: {
+                    y: {
+                      ticks: { color: "#CCCCCC" },
+                      grid: { color: "#2F2F2F" }
+                    },
+                    x: {
+                      ticks: { color: "#CCCCCC" },
+                      grid: { color: "#2F2F2F" }
+                    }
+                  }
+                }}
+                type="line"
+              />
+            </div>
+          </motion.div>
+
+          {/* DATA SOURCES & METHODOLOGY */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            className="mt-6 bg-[#1F1F1F] p-6 rounded-lg border border-emerald-400/10 shadow text-gray-400 text-sm"
+          >
+            <h3 className="text-lg font-semibold text-emerald-400 mb-2">ℹ️ Data Sources & Methodology</h3>
+            <p>
+              The emissions data is simulated for demonstration purposes. Real data is sourced from verified environmental databases and calculated using standard carbon footprint methodologies.
+            </p>
+          </motion.div>
         </main>
       </div>
     </div>
