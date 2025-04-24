@@ -25,7 +25,7 @@ function App() {
     if (savedSoundEnabled === "true") {
       setSoundEnabled(true);
       setLoading(false);
-      setLoaded(true); // Show dashboard immediately if sound enabled
+      setLoaded(true); 
     } else {
       const timer = setTimeout(() => {
         setMinLoadingElapsed(true);
@@ -60,8 +60,6 @@ function App() {
     return <Loading enableSound={enableSound} />;
   }
 
-  // Remove the transitioning conditional return block entirely
-  // Instead, always render Dashboard inside Routes with transitioning prop
 
   if (loaded) {
     return (
@@ -69,7 +67,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/" element={<EntrySelector />} />
+            <Route path="/" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} transitioning={transitioning} />} />
             <Route path="/dashboard" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} transitioning={transitioning} />} />
             <Route path="/carbon" element={<Carbon />} />
             <Route path="/predictions" element={<Predictions />} />
