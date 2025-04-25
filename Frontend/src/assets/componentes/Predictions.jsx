@@ -241,7 +241,7 @@ const Predictions = () => {
             )}
           </motion.div>
 
-          {/* CHARTS + TIPS */}
+          
           <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12">
             <motion.div className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">📉 Emission Trends</h3>
