@@ -1,113 +1,42 @@
-import React, { useEffect, useState, useRef, useCallback, memo } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaChartLine, FaProjectDiagram, FaLeaf, FaUserCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
-import "./SplashScreen.css";
 
 const sections = [
   {
     title: "Dashboard",
     icon: <FaChartLine className="text-4xl mb-2" />,
     path: "/dashboard",
-    color: "bg-gradient-to-br from-emerald-500 to-green-600",
+    color: "bg-[#1E1E1E] hover:bg-[#162115]",
     description: "Overview of key metrics and insights",
-    position: "top-left"
   },
   {
     title: "Predictions",
     icon: <FaProjectDiagram className="text-4xl mb-2" />,
     path: "/predictions",
-    color: "bg-gradient-to-br from-blue-500 to-indigo-600",
+    color: "bg-[#1E1E1E] hover:bg-[#1A2A30]",
     description: "AI-driven forecasts for emissions",
-    position: "top-right"
   },
   {
     title: "Carbon Analysis",
     icon: <FaLeaf className="text-4xl mb-2" />,
     path: "/carbon",
-    color: "bg-gradient-to-br from-lime-500 to-emerald-600",
+    color: "bg-[#1E1E1E] hover:bg-[#1E2F1E]",
     description: "Detailed breakdown of CO₂ impact",
-    position: "bottom-left"
   },
   {
     title: "Account",
     icon: <FaUserCircle className="text-4xl mb-2" />,
     path: "/account",
-    color: "bg-gradient-to-br from-purple-500 to-pink-600",
+    color: "bg-[#1E1E1E] hover:bg-[#2E1E2E]",
     description: "Manage your personal and company info",
-    position: "bottom-right"
-  }
+  },
 ];
-
-const SplashScreen = memo(({ onComplete }) => {
-  const floatingAnimation = {
-    y: [0, -15, 0],
-    transition: {
-      duration: 8,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 8000);
-
-    return () => clearTimeout(timer);
-  }, [onComplete]);
-
-  return (
-    <motion.div
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
-      className="no-opacity-transition fixed inset-0 bg-[#0A0F0A] flex flex-col items-center justify-center z-50 pointer-events-none"
-    >
-      <motion.div
-        animate={floatingAnimation}
-        className="relative"
-      >
-        <motion.img
-          src="/oxilogo.png"
-          alt="OXI Logo"
-          className="w-48 mb-4"
-          initial={{ scale: 0.8, rotate: -5 }}
-          animate={{ 
-            scale: 1,
-            rotate: 5,
-            transition: {
-              duration: 2,
-              repeat: Infinity,
-              repeatType: "mirror",
-              ease: "easeInOut"
-            }
-          }}
-        />
-      </motion.div>
-      
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ 
-          opacity: 1, 
-          y: 0,
-          transition: { 
-            delay: 0.5,
-            type: "spring",
-            stiffness: 50
-          }
-        }}
-        className="text-2xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent"
-      >
-        Carbon Footprint Manager
-      </motion.h1>
-    </motion.div>
-  );
-});
 
 const EntrySelector = () => {
   const navigate = useNavigate();
-  const [showSplash, setShowSplash] = useState(true);
+  const [showSplash, setShowSplash] = useState(false);
   const onCompleteCalled = useRef(false);
 
   const handleComplete = useCallback(() => {
@@ -117,115 +46,44 @@ const EntrySelector = () => {
     }
   }, []);
 
-  const springConfig = { stiffness: 300, damping: 20 };
-
-  const getInitialPosition = (position) => {
-    switch(position) {
-      case 'top-left': return { x: -100, y: -100 };
-      case 'top-right': return { x: 100, y: -100 };
-      case 'bottom-left': return { x: -100, y: 100 };
-      case 'bottom-right': return { x: 100, y: 100 };
-      default: return { x: 0, y: 0 };
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-[#0A0F0A] grid grid-cols-1 md:grid-cols-2 relative overflow-hidden">
-      {sections.map((section, i) => {
-        const initialPos = getInitialPosition(section.position);
-        
-        return (
+    <div className="bg-[#0A0F0A] min-h-screen text-white font-sans flex flex-col">
+      {/* Header superior */}
+      <header className="fixed top-0 left-0 w-full h-16 bg-[#0A0F0A] border-b border-emerald-600 shadow-md z-50 flex items-center justify-between px-6">
+        <div className="flex items-center gap-3">
+          <img src="/oxilogo.png" alt="Logo" className="w-10 h-10" />
+          <h1 className="text-lg font-bold text-emerald-400">OXI Platform</h1>
+        </div>
+      </header>
+
+      {/* Dashboards */}
+      <div
+        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-8 px-10 pt-20 pb-10 flex-grow"
+      >
+        {sections.map((section, i) => (
           <motion.div
             key={i}
-            initial={{ 
-              opacity: 0,
-              x: initialPos.x,
-              y: initialPos.y,
-              scale: 0.8,
-              rotate: section.position.includes('left') ? -5 : 5
-            }}
-            animate={{ 
-              opacity: 1,
-              x: 0,
-              y: 0,
-              scale: 1,
-              rotate: 0,
-              transition: {
-                type: "spring",
-                ...springConfig,
-                delay: i * 0.15 + 0.5
-              }
-            }}
-            className="relative group cursor-pointer"
-            onClick={() => {
-              navigate(section.path);
-            }}
+            className={`cursor-pointer rounded-2xl overflow-hidden border border-emerald-500/20 ${section.color} transition-colors duration-300`}
+            onClick={() => navigate(section.path)}
             whileHover={{
               scale: 1.05,
-              rotate: section.position.includes('left') ? -1 : 1,
-              transition: { type: "spring", ...springConfig }
+              transition: { type: "spring", stiffness: 300, damping: 20 }
             }}
-            whileTap={{
-              scale: 0.95,
-              rotate: section.position.includes('left') ? 2 : -2
-            }}
-            style={{ zIndex: 1 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <motion.div
-              className={`absolute inset-0 ${section.color} opacity-90`}
-              initial={{ scale: 1 }}
-              whileHover={{ 
-                scale: 1.1,
-                transition: { duration: 2 }
-              }}
-            />
-            
-            <div className="h-[50vh] flex flex-col items-center justify-center relative z-10">
-              <motion.div
-                className="mb-4 text-white"
-                whileHover={{ 
-                  scale: 1.3,
-                  rotate: 10,
-                  transition: { type: "spring", ...springConfig }
-                }}
-              >
-                {section.icon}
-              </motion.div>
-              
-              <motion.h2
-                className="text-2xl font-bold text-white mb-2"
-                whileHover={{ scale: 1.1 }}
-              >
-                {section.title}
-              </motion.h2>
-              
-              <motion.div
-                initial={{ 
-                  opacity: 0,
-                  y: 20,
-                  filter: "blur(5px)"
-                }}
-                whileHover={{ 
-                  opacity: 1,
-                  y: 0,
-                  filter: "blur(0px)",
-                  transition: { 
-                    duration: 0.3,
-                    ease: "easeOut"
-                  }
-                }}
-                className="text-sm text-white/80 px-4 text-center absolute bottom-8"
-              >
-                {section.description}
-              </motion.div>
+            <div className="h-full flex flex-col items-center justify-center p-6 text-center">
+              <div className="mb-4 text-emerald-400">{section.icon}</div>
+              <h2 className="text-xl font-semibold mb-2 text-white">{section.title}</h2>
+              <p className="text-sm text-gray-400">{section.description}</p>
             </div>
           </motion.div>
-        );
-      })}
-      
-      {showSplash && (
-        <SplashScreen onComplete={handleComplete} />
-      )}
+        ))}
+      </div>
+
+      {/* Footer */}
+      <footer className="bg-[#0A0F0A] text-center py-4 border-t border-emerald-600 text-sm text-emerald-200">
+        © {new Date().getFullYear()} OXI Platform · All rights reserved
+      </footer>
     </div>
   );
 };
