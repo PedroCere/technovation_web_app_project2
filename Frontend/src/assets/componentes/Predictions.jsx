@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import { Line, Bar } from "react-chartjs-2";
@@ -15,9 +15,11 @@ import {
   Title,
   Filler
 } from "chart.js";
-import { getPredictionsByUser } from "../../utils/api";
+import { getPredictionsByUser, deletePrediction } from "../../utils/api";
 import PredictionForm from "./PredictionForm";
 import PredictionsLoading from "./PredictionsLoading";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 ChartJS.register(
   LineElement,
@@ -34,8 +36,21 @@ ChartJS.register(
 const Predictions = () => {
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reloading, setReloading] = useState(false);
   const [showLoadingTransition, setShowLoadingTransition] = useState(true);
   const userId = "123e4567-e89b-12d3-a456-426614174345";
+
+  const fetchPredictions = async () => {
+    setReloading(true);
+    try {
+      const data = await getPredictionsByUser(userId);
+      setPredictions(data);
+    } catch (err) {
+      toast.error("Failed to fetch predictions");
+    } finally {
+      setReloading(false);
+    }
+  };
 
   useEffect(() => {
     getPredictionsByUser(userId)
@@ -48,39 +63,47 @@ const Predictions = () => {
     setShowLoadingTransition(false);
   };
 
+  const handleDelete = async (id) => {
+    try {
+      await deletePrediction(id);
+      setPredictions((prev) => prev.filter((p) => p.id !== id));
+      toast.success("Prediction deleted 🌱");
+    } catch {
+      toast.error("Failed to delete prediction");
+    }
+  };
+
   const chartOptions = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
         labels: {
-          color: '#CCCCCC',
-          font: {
-            size: 12
-          }
+          color: "#CCCCCC",
+          font: { size: 12 }
         }
       },
       tooltip: {
-        backgroundColor: '#1E1E1E',
-        titleColor: '#34C464',
-        bodyColor: '#FFFFFF',
-        borderColor: '#47D95D',
+        backgroundColor: "#1E1E1E",
+        titleColor: "#34C464",
+        bodyColor: "#FFFFFF",
+        borderColor: "#47D95D",
         borderWidth: 1
       }
     },
     scales: {
       y: {
-        grid: { color: '#2D2D2D' },
-        ticks: { color: '#CCCCCC' },
+        grid: { color: "#2D2D2D" },
+        ticks: { color: "#CCCCCC" },
         title: {
           display: true,
-          text: 'Tons of CO₂',
-          color: '#CCCCCC'
+          text: "Tons of CO₂",
+          color: "#CCCCCC"
         }
       },
       x: {
-        grid: { color: '#2D2D2D' },
-        ticks: { color: '#CCCCCC' }
+        grid: { color: "#2D2D2D" },
+        ticks: { color: "#CCCCCC" }
       }
     }
   };
@@ -134,7 +157,8 @@ const Predictions = () => {
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: -20, transition: { duration: 0.3 } }
   };
 
   if (loading || showLoadingTransition) {
@@ -144,6 +168,7 @@ const Predictions = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans">
       <Sidebar />
+      <ToastContainer theme="dark" position="top-right" />
 
       <div className="flex-1 flex flex-col">
         <Navbar />
@@ -154,18 +179,28 @@ const Predictions = () => {
           variants={containerVariants}
           className="flex-1 p-6 md:p-8 overflow-y-auto"
         >
-          <motion.div variants={itemVariants}>
-            <motion.div variants={itemVariants} className="mt-15 mb-10">
+          <motion.div variants={itemVariants} className="mt-15 mb-6 flex items-center justify-between">
+            <div>
               <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
                 Emissions Forecast
               </h2>
               <p className="text-sm md:text-base text-emerald-200/80 mt-2">
                 AI-powered predictive models for smart emissions management
               </p>
-            </motion.div>
+            </div>
 
-            <PredictionForm />
+            <button
+              onClick={fetchPredictions}
+              disabled={reloading}
+              className={`px-4 py-2 rounded-md text-sm font-medium transition flex items-center gap-2 ${
+                reloading ? "text-gray-500" : "text-emerald-300 hover:bg-emerald-500/10"
+              }`}
+            >
+              {reloading ? "Reloading..." : "🔄 Reload"}
+            </button>
           </motion.div>
+
+          <PredictionForm />
 
           <motion.div
             variants={itemVariants}
@@ -176,86 +211,61 @@ const Predictions = () => {
               <p className="text-gray-400">No predictions available.</p>
             ) : (
               <ul className="space-y-3">
-                {predictions.map((pred) => (
-                  <li
-                    key={pred.id}
-                    className="bg-[#2D2D2D] p-6 rounded-lg border border-emerald-500/30 shadow-md hover:shadow-emerald-400/50 transition-shadow duration-300"
-                  >
-                    <p className="text-md text-gray-300 font-semibold mb-1">Prediction:</p>
-                    <p className="text-sm text-gray-200 mb-2">{pred.prediction}</p>
-                    <p className="text-xs text-gray-500 italic">
-                      Date: {new Date(pred.createdAt).toLocaleString()}
-                    </p>
-                  </li>
-                ))}
+                <AnimatePresence>
+                  {predictions.map((pred) => (
+                    <motion.li
+                      key={pred.id}
+                      variants={itemVariants}
+                      initial="hidden"
+                      animate="visible"
+                      exit="exit"
+                      className="bg-[#2D2D2D] p-6 rounded-lg border border-emerald-500/30 shadow-md hover:shadow-emerald-400/50 transition-shadow duration-300 flex justify-between items-start gap-4"
+                    >
+                      <div>
+                        <p className="text-md text-gray-300 font-semibold mb-1">Prediction:</p>
+                        <p className="text-sm text-gray-200 mb-2">{pred.prediction}</p>
+                        <p className="text-xs text-gray-500 italic">
+                          Date: {new Date(pred.createdAt).toLocaleString()}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleDelete(pred.id)}
+                        className="text-sm text-rose-400 hover:text-rose-500 transition"
+                      >
+                        🗑️
+                      </button>
+                    </motion.li>
+                  ))}
+                </AnimatePresence>
               </ul>
             )}
           </motion.div>
 
-          <motion.div variants={itemVariants} className="mt-10 mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent">
-            </h2>
-            <p className="text-sm md:text-base text-emerald-200/80 mt-2">
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-10">
-            <motion.div variants={itemVariants} className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20">
-              <h3 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">
-                <span>📉</span> Emission Trends
-              </h3>
+          {/* CHARTS + TIPS */}
+          <motion.div variants={itemVariants} className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-12">
+            <motion.div className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20">
+              <h3 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">📉 Emission Trends</h3>
               <div className="h-64">
-                <Line data={lineData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, title: { display: true, text: '6-Month Forecast', color: '#CCCCCC', font: { size: 14 } } } }} />
+                <Line data={lineData} options={chartOptions} />
               </div>
             </motion.div>
 
-            <motion.div variants={itemVariants} className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20">
-              <h3 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">
-                <span>📊</span> Emissions by Source
-              </h3>
+            <motion.div className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20">
+              <h3 className="text-lg font-semibold text-emerald-400 mb-4 flex items-center gap-2">📊 Emissions by Source</h3>
               <div className="h-64">
-                <Bar data={barData} options={{ ...chartOptions, plugins: { ...chartOptions.plugins, title: { display: true, text: 'Category Breakdown', color: '#CCCCCC', font: { size: 14 } } } }} />
+                <Bar data={barData} options={chartOptions} />
               </div>
             </motion.div>
-          </div>
-
-          <motion.div variants={itemVariants} className="bg-[#1E1E1E] p-6 rounded-xl shadow-2xl border border-emerald-400/20">
-            <div className="flex flex-col md:flex-row gap-6 items-start">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold text-emerald-400 mb-3 flex items-center gap-2">
-                  <span>🤖</span> AI Recommendations
-                </h3>
-                <ul className="list-disc pl-5 space-y-2 text-sm text-emerald-100/90">
-                  <li>Implement smart energy management system</li>
-                  <li>Switch to certified renewable energy providers</li>
-                  <li>Optimize transport routes using AI</li>
-                  <li>Launch advanced material recycling program</li>
-                </ul>
-              </div>
-              <div className="w-full md:w-64 space-y-4">
-                <div className="p-4 rounded-lg bg-emerald-400/10">
-                  <p className="text-xs text-emerald-300 mb-1">Estimated Impact</p>
-                  <p className="text-xl font-bold text-emerald-400">23–28%</p>
-                  <p className="text-xs text-emerald-300">Emission reduction</p>
-                </div>
-                <button className="w-full px-4 py-2 text-sm bg-emerald-400/10 hover:bg-emerald-400/20 text-emerald-300 rounded-lg transition-all flex items-center gap-2">
-                  <span>📄</span> Detailed Action Plan
-                </button>
-              </div>
-            </div>
           </motion.div>
 
-          <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
-            {[
-              { title: "Current Scenario", value: "2.7t", color: "bg-rose-400/10", text: "text-rose-400" },
-              { title: "2024 Target", value: "1.9t", color: "bg-emerald-400/10", text: "text-emerald-400" },
-              { title: "Net Zero Target", value: "2028", color: "bg-indigo-400/10", text: "text-indigo-400" }
-            ].map((card, index) => (
-              <div key={index} className={`p-4 rounded-xl ${card.color} border border-emerald-400/10`}>
-                <p className="text-sm text-gray-300 mb-1">{card.title}</p>
-                <p className={`text-2xl font-bold ${card.text}`}>{card.value}</p>
-              </div>
-            ))}
+          <motion.div variants={itemVariants} className="bg-[#1E1E1E] mt-10 p-6 rounded-xl border border-emerald-400/20">
+            <h3 className="text-lg font-semibold text-emerald-400 mb-3">🤖 AI Recommendations</h3>
+            <ul className="list-disc pl-5 text-sm text-emerald-100 space-y-2">
+              <li>Implement smart energy management system</li>
+              <li>Switch to certified renewable energy providers</li>
+              <li>Optimize transport routes using AI</li>
+              <li>Launch advanced material recycling program</li>
+            </ul>
           </motion.div>
         </motion.main>
       </div>
