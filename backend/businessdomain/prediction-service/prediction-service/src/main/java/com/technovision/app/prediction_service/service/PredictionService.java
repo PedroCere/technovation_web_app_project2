@@ -12,6 +12,8 @@ public interface PredictionService {
 
     List<Prediction> findByUserId(UUID userId);
 
+    List<Prediction> getAllPredictions();
+
     void deletePrediction(UUID id);
 
 
