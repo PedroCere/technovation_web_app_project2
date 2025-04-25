@@ -63,10 +63,9 @@ export default function PredictionsLoading({ onComplete }) {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-b from-[#022d26] via-[#021b15] to-[#022d26] text-white font-sans overflow-hidden">
-      {/* Ambient sound on fade */}
+    
       <audio ref={audioRef} src="/public/fade-out.mp3" preload="auto" />
 
-      {/* Animated Leaf Icon */}
       <motion.div
         initial={{ scale: 0.8, opacity: 0.6 }}
         animate={{ scale: [0.9, 1.05, 0.9], opacity: [0.6, 1, 0.6] }}
@@ -76,7 +75,7 @@ export default function PredictionsLoading({ onComplete }) {
         <FaLeaf />
       </motion.div>
 
-      {/* Animated Phrase */}
+    
       <AnimatePresence mode="wait">
         <motion.p
           key={phraseIndex}
@@ -90,7 +89,6 @@ export default function PredictionsLoading({ onComplete }) {
         </motion.p>
       </AnimatePresence>
 
-      {/* Split overlays */}
       <motion.div
         className="absolute top-0 left-0 w-1/2 h-full bg-emerald-500/10 backdrop-blur-sm z-40"
         initial="initial"
@@ -104,7 +102,6 @@ export default function PredictionsLoading({ onComplete }) {
         variants={splitVariantsRight}
       />
 
-      {/* Fade out */}
       <AnimatePresence>
         {fadeOut && (
           <motion.div
