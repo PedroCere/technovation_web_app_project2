@@ -40,3 +40,14 @@ export const fetchEmissionData = async (userId) => {
   }
   return await response.json();
 };
+
+// Added deletePrediction function to delete a prediction by id
+export const deletePrediction = async (id) => {
+  const response = await fetch(`${PREDICTION_API_BASE}/${id}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to delete prediction");
+  }
+};
