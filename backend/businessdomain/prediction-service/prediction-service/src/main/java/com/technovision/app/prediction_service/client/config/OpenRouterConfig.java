@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenRouterConfig {
 
-    @Value("${openrouter.api.key}")
+    @Value("${openrouter.api-key}")
     private String apiKey;
 
     @Bean

@@ -5,6 +5,7 @@ import com.technovision.app.prediction_service.dto.PredictionResponse;
 import com.technovision.app.prediction_service.model.Prediction;
 import com.technovision.app.prediction_service.service.PredictionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,13 @@ public class PredictionController {
     public ResponseEntity<PredictionResponse> predict(@RequestBody PredictionRequest request) {
         PredictionResponse response = predictionService.predict(request);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/all-predictions")
+    public ResponseEntity<List<Prediction>> getAllPredictions(){
+        List<Prediction> predictions = predictionService.getAllPredictions();
+
+        return ResponseEntity.ok(predictions);
     }
 
     @GetMapping("/user/{userId}")

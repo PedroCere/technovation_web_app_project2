@@ -96,4 +96,10 @@ public class DataCalculationServiceImpl implements DataCalculationService {
 
         return response;
     }
+
+
+    @Override
+    public List<EmissionResult> getAllCalculateEmissionsById(UUID userId) {
+        return resultRepo.findByUserId(userId);
+    }
 }
