@@ -52,6 +52,7 @@ public class PredictionServiceImpl implements PredictionService {
           "prediction": "...",
           "fiability": "..."
         }
+        Fiability have to say between 0 and 1.
         Use dot (.) as a decimal separator.
         """.formatted(
                         summary.getTotalEmissionsKg(),
@@ -115,6 +116,11 @@ public class PredictionServiceImpl implements PredictionService {
     @Override
     public List<Prediction> findByUserId(UUID userId) {
         return predictionRepository.findByUserId(userId);
+    }
+
+    @Override
+    public List<Prediction> getAllPredictions() {
+        return predictionRepository.findAll();
     }
 
     @Override
