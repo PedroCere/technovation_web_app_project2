@@ -1,6 +1,7 @@
 package com.technovision.app.data_calculator_service.controller;
 
 import com.technovision.app.data_calculator_service.dto.*;
+import com.technovision.app.data_calculator_service.model.EmissionResult;
 import com.technovision.app.data_calculator_service.service.DataCalculationService;
 import com.technovision.app.data_calculator_service.service.DataInputService;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -33,6 +35,13 @@ public class DataCalculationController {
     public ResponseEntity<EmissionCalculationResponse> calculateEmissions(@RequestParam UUID userId) {
         EmissionCalculationResponse response = calculationService.calculateEmissions(userId);
         return ResponseEntity.ok(response);
+    }
+
+
+    @GetMapping("/all-emissions-by-userId")
+    public ResponseEntity<List<EmissionResult>> getAllEmissionsById(@RequestParam UUID userId){
+        List<EmissionResult> emissionResults = calculationService.getAllCalculateEmissionsById(userId);
+        return ResponseEntity.ok(emissionResults);
     }
 
 }
