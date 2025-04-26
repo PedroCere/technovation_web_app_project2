@@ -13,8 +13,8 @@ const LoginForm = () => {
   };
 
   const validationSchema = Yup.object({
-    email: Yup.string().email("Invalid email format").required("Required"),
-    password: Yup.string().required("Required"),
+    email: Yup.string().email("Invalid email format").required("Email is required"),
+    password: Yup.string().required("Password is required"),
   });
 
   const onSubmit = async (values, { setSubmitting, setErrors }) => {
@@ -23,6 +23,7 @@ const LoginForm = () => {
       localStorage.setItem("token", response.token);
       navigate("/dashboard");
     } catch (error) {
+      console.error("Login failed", error);
       setErrors({ general: "Invalid email or password" });
     } finally {
       setSubmitting(false);
@@ -30,32 +31,51 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
-        {({ isSubmitting, errors }) => (
-          <Form>
-            {errors.general && <div className="text-red-600 mb-4">{errors.general}</div>}
-            <div className="mb-4">
-              <label htmlFor="email" className="block mb-1 font-semibold">Email</label>
-              <Field type="email" name="email" id="email" className="w-full border border-gray-300 p-2 rounded" />
-              <ErrorMessage name="email" component="div" className="text-red-600 text-sm" />
-            </div>
-            <div className="mb-6">
-              <label htmlFor="password" className="block mb-1 font-semibold">Password</label>
-              <Field type="password" name="password" id="password" className="w-full border border-gray-300 p-2 rounded" />
-              <ErrorMessage name="password" component="div" className="text-red-600 text-sm" />
-            </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition duration-200"
-            >
-              {isSubmitting ? "Logging in..." : "Login"}
-            </button>
-          </Form>
-        )}
-      </Formik>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] px-6">
+      <div className="bg-[#1E1E1E] p-8 rounded-2xl shadow-2xl border border-emerald-400/20 w-full max-w-md">
+        <h2 className="text-3xl font-bold text-emerald-400 mb-8 text-center">Welcome Back</h2>
+        <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={onSubmit}>
+          {({ isSubmitting, errors }) => (
+            <Form className="space-y-6">
+              {errors.general && (
+                <div className="text-rose-400 text-center font-medium">{errors.general}</div>
+              )}
+
+              <div>
+                <label htmlFor="email" className="block mb-1 text-sm text-gray-300">Email Address</label>
+                <Field
+                  type="email"
+                  name="email"
+                  id="email"
+                  className="w-full rounded-md p-3 bg-[#2D2D2D] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 border border-gray-600"
+                  placeholder="Enter your email"
+                />
+                <ErrorMessage name="email" component="div" className="text-rose-400 text-sm mt-1" />
+              </div>
+
+              <div>
+                <label htmlFor="password" className="block mb-1 text-sm text-gray-300">Password</label>
+                <Field
+                  type="password"
+                  name="password"
+                  id="password"
+                  className="w-full rounded-md p-3 bg-[#2D2D2D] text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-emerald-400 border border-gray-600"
+                  placeholder="Enter your password"
+                />
+                <ErrorMessage name="password" component="div" className="text-rose-400 text-sm mt-1" />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-gradient-to-r from-emerald-400 to-green-400 text-[#0A0F0A] font-semibold py-3 rounded-md hover:opacity-90 transition-all"
+              >
+                {isSubmitting ? "Logging in..." : "Login"}
+              </button>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 };
