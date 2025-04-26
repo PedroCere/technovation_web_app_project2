@@ -21,7 +21,7 @@ const LoginForm = () => {
     try {
       const response = await AuthService.login(values);
       localStorage.setItem("token", response.token);
-      navigate("/dashboard");
+      navigate("/entry-selector");
     } catch (error) {
       console.error("Login failed", error);
       setErrors({ general: "Invalid email or password" });
