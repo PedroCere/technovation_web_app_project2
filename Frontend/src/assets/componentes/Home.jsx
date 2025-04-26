@@ -1,10 +1,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    navigate('/register');
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#004900] to-[#002800] text-white">
-      {}
+      {/* Hero Section */}
       <section className="container mx-auto px-6 py-32 md:py-40 text-center">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
@@ -14,7 +21,8 @@ const Home = () => {
         >
           <span className="bg-gradient-to-r from-[#34C464] to-[#47D95D] bg-clip-text text-transparent">
             Securing Our Future
-          </span> <br />With Oxi
+          </span> 
+          <br />With Oxi
         </motion.h1>
         
         <motion.p 
@@ -31,16 +39,19 @@ const Home = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <button className="bg-gradient-to-r from-[#34C464] to-[#47D95D] px-10 py-5 text-2xl font-semibold text-[#004900] rounded-xl hover:shadow-lg hover:shadow-[#34C464]/30 transition-all transform hover:scale-105">
+          <button
+            onClick={handleGetStarted}
+            className="bg-gradient-to-r from-[#34C464] to-[#47D95D] px-10 py-5 text-2xl font-semibold text-[#004900] rounded-xl hover:shadow-lg hover:shadow-[#34C464]/30 transition-all transform hover:scale-105"
+          >
             Get Started
           </button>
         </motion.div>
       </section>
 
-      {}
+      {/* Divider */}
       <div className="border-t border-[#34C464]/30 mx-20 my-20"></div>
 
-      {}
+      {/* Features Section */}
       <section className="container mx-auto px-6 py-28">
         <motion.div
           initial={{ opacity: 0 }}
@@ -91,10 +102,10 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {}
+      {/* Divider */}
       <div className="border-t border-[#34C464]/30 mx-20 my-20"></div>
 
-      {}
+      {/* Testimonials Section */}
       <section className="container mx-auto px-6 py-32">
         <motion.div
           initial={{ opacity: 0 }}
@@ -126,10 +137,10 @@ const Home = () => {
         </motion.div>
       </section>
 
-      {}
+      {/* Divider */}
       <div className="border-t border-[#34C464]/30 mx-20 my-20"></div>
 
-      {}
+      {/* Final Call to Action */}
       <section className="container mx-auto px-6 py-32 text-center">
         <motion.div
           initial={{ opacity: 0 }}
@@ -147,6 +158,7 @@ const Home = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/contact")} // Puedes definir esta ruta para contacto o demo
               className="bg-gradient-to-r from-[#34C464] to-[#47D95D] px-12 py-6 text-2xl font-bold text-[#004900] rounded-xl hover:shadow-lg hover:shadow-[#34C464]/40 transition-all"
             >
               Request Demo
@@ -154,6 +166,7 @@ const Home = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => navigate("/about")}
               className="border-2 border-[#47D95D] px-12 py-6 text-2xl font-bold text-white rounded-xl hover:bg-[#47D95D]/10 transition-all"
             >
               Learn More
