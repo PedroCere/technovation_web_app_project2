@@ -10,6 +10,8 @@ import Settings from './assets/componentes/Settings';
 import EntrySelector from './assets/componentes/EntrySelector';
 import Loading from './assets/componentes/Loading';
 import LoadingTransition from './assets/componentes/LoadingTransition';
+import LoginForm from './assets/componentes/LoginForm';
+import RegisterForm from './assets/componentes/RegisterForm';
 import { successSound } from './utils/sounds';
 
 function App() {
@@ -68,13 +70,15 @@ function App() {
         <Router>
           <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/" element={<EntrySelector />} />
+            <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} transitioning={transitioning} />} />
             <Route path="/carbon" element={<Carbon />} />
             <Route path="/predictions" element={<Predictions />} />
             <Route path="/preferences" element={<Preferences />} />
             <Route path="/account" element={<Account />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
           </Routes>
         </Router>
         {transitioning && <LoadingTransition onComplete={handleTransitionComplete} />}

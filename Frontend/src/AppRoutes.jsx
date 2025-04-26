@@ -10,6 +10,9 @@ import Settings from "./assets/componentes/Settings";
 import Home from "./assets/componentes/Home";
 import EntrySelector from "./assets/componentes/EntrySelector";
 import SplashScreen from "./assets/componentes/SplashScreen";
+import LoginForm from "./assets/componentes/LoginForm";
+import RegisterForm from "./assets/componentes/RegisterForm";
+import PrivateRoute from "./assets/componentes/PrivateRoute";
 
 const AppRoutes = () => {
   const location = useLocation();
@@ -37,14 +40,58 @@ const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<EntrySelector />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/carbon" element={<Carbon />} />
-        <Route path="/predictions" element={<Predictions />} />
-        <Route path="/preferences" element={<Preferences />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/settings" element={<Settings />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/entry-selector" element={<EntrySelector />} />
+        <Route
+          path="/dashboard"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/carbon"
+          element={
+            <PrivateRoute>
+              <Carbon />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/predictions"
+          element={
+            <PrivateRoute>
+              <Predictions />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/preferences"
+          element={
+            <PrivateRoute>
+              <Preferences />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/account"
+          element={
+            <PrivateRoute>
+              <Account />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PrivateRoute>
+              <Settings />
+            </PrivateRoute>
+          }
+        />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
       </Routes>
 
       {showSplash && <SplashScreen onComplete={() => {}} />}
