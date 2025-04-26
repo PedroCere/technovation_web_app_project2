@@ -54,13 +54,12 @@ const Navbar = () => {
     else if (hour < 18) setGreeting("Good afternoon");
     else setGreeting("Good evening");
 
-    // Auto dark mode based on real time
     const autoDark = !(hour >= 6 && hour < 18);
     setDarkMode(autoDark);
     setSoundVolume(parseFloat(localStorage.getItem("soundVolume") || "0.5"));
     setThemeColor(localStorage.getItem("themeColor") || "emerald");
 
-    // Simulate user last activity
+ 
     const last = new Date();
     last.setMinutes(last.getMinutes() - 12);
     setLastActive(last.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -87,7 +86,7 @@ const Navbar = () => {
       </motion.span>
     </div>
   
-      <div className="flex items-center justify-end h-full pr-4 md:pr-6 ml-auto gap-4">        {/* Search with spinning icon */}
+      <div className="flex items-center justify-end h-full pr-4 md:pr-6 ml-auto gap-4">       
         <div className="relative">
           <input
             onFocus={() => setSearching(true)}
