@@ -70,7 +70,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/" element={<EntrySelector />} />
+            <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard soundEnabled={soundEnabled} enableSound={enableSound} transitioning={transitioning} />} />
             <Route path="/carbon" element={<Carbon />} />
             <Route path="/predictions" element={<Predictions />} />

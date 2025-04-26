@@ -40,8 +40,8 @@ const AppRoutes = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<EntrySelector />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/entry-selector" element={<EntrySelector />} />
         <Route
           path="/dashboard"
           element={
