@@ -6,11 +6,13 @@ import ChatBot from "./ChatBot";
 
 const Settings = () => {
   const [profileImage, setProfileImage] = useState(null);
+  const [tempProfileImage, setTempProfileImage] = useState(null);
 
   useEffect(() => {
     const savedImage = localStorage.getItem("profileImage");
     if (savedImage) {
       setProfileImage(savedImage);
+      setTempProfileImage(savedImage);
     }
   }, []);
 
@@ -19,11 +21,15 @@ const Settings = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setProfileImage(reader.result);
-        localStorage.setItem("profileImage", reader.result);
+        setTempProfileImage(reader.result);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleSaveChanges = () => {
+    setProfileImage(tempProfileImage);
+    localStorage.setItem("profileImage", tempProfileImage);
   };
 
   return (
@@ -52,9 +58,9 @@ const Settings = () => {
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">Profile Image</h3>
               <div className="flex flex-col items-center">
-                {profileImage ? (
+                {tempProfileImage ? (
                   <img
-                    src={profileImage}
+                    src={tempProfileImage}
                     alt="Profile"
                     className="w-32 h-32 rounded-full object-cover mb-4 border-2 border-emerald-400"
                   />
@@ -164,7 +170,10 @@ const Settings = () => {
             <button className="px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-all">
               Reset Defaults
             </button>
-            <button className="px-6 py-2 bg-emerald-400 hover:bg-emerald-500 text-white rounded-lg transition-all">
+            <button
+              onClick={handleSaveChanges}
+              className="px-6 py-2 bg-emerald-400 hover:bg-emerald-500 text-white rounded-lg transition-all"
+            >
               Save All Changes
             </button>
         
