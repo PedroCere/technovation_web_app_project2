@@ -25,6 +25,7 @@ const Navbar = () => {
   const [themeColor, setThemeColor] = useState("emerald");
   const [lastActive, setLastActive] = useState("");
   const [searching, setSearching] = useState(false);
+  const [profileImage, setProfileImage] = useState("/profile.jpg");
 
   const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
@@ -59,7 +60,11 @@ const Navbar = () => {
     setSoundVolume(parseFloat(localStorage.getItem("soundVolume") || "0.5"));
     setThemeColor(localStorage.getItem("themeColor") || "emerald");
 
- 
+    const savedProfileImage = localStorage.getItem("profileImage");
+    if (savedProfileImage) {
+      setProfileImage(savedProfileImage);
+    }
+
     const last = new Date();
     last.setMinutes(last.getMinutes() - 12);
     setLastActive(last.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -141,7 +146,7 @@ const Navbar = () => {
         <div className="flex items-center gap-2 relative cursor-pointer group" onClick={toggleMenu}>
           <div className="relative">
             <img
-              src="/profile.jpg"
+              src={profileImage}
               alt="User"
               className="h-10 w-10 rounded-full object-cover border-2 border-transparent group-hover:border-emerald-400 transition-all ring-2 ring-green-400 ring-offset-2"
             />
@@ -165,7 +170,7 @@ const Navbar = () => {
                   <button className="w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-emerald-400/10 transition-all">Change Language 🌍</button>
                   <button className="w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-emerald-400/10 transition-all">View Activity Log</button>
                   <div className="border-t border-[#2F2F2F] my-1" />
-                  <button className="w-full px-4 py-2 text-left text-sm text-gray-200 hover:bg-rose-500/10 hover:text-rose-400 transition-all">Logout</button>
+                  <button className="w-full px-4 py-2 text-left text-sm text-rose-400 hover:bg-rose-500/10 transition-all">Logout</button>
                 </div>
               </motion.div>
             )}
