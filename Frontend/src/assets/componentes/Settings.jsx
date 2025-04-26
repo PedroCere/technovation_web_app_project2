@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import ChatBot from "./ChatBot";
 
 const Settings = () => {
+  const [profileImage, setProfileImage] = useState(null);
+
+  useEffect(() => {
+    const savedImage = localStorage.getItem("profileImage");
+    if (savedImage) {
+      setProfileImage(savedImage);
+    }
+  }, []);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result);
+        localStorage.setItem("profileImage", reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0A0F0A] via-[#121212] to-[#1A1A1A] text-white flex font-sans">
       <Sidebar />
@@ -28,6 +49,30 @@ const Settings = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
+              <h3 className="text-lg font-semibold text-emerald-400 mb-4">Profile Image</h3>
+              <div className="flex flex-col items-center">
+                {profileImage ? (
+                  <img
+                    src={profileImage}
+                    alt="Profile"
+                    className="w-32 h-32 rounded-full object-cover mb-4 border-2 border-emerald-400"
+                  />
+                ) : (
+                  <div className="w-32 h-32 rounded-full bg-gray-700 flex items-center justify-center mb-4 text-gray-400">
+                    No Image
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="text-sm text-gray-300"
+                />
+              </div>
+            </div>
+
+            {/* Existing settings sections */}
             <div className="bg-[#1E1E1E] p-6 rounded-xl border border-emerald-400/20">
               <h3 className="text-lg font-semibold text-emerald-400 mb-4">⚙️ General</h3>
               <div className="space-y-4">
