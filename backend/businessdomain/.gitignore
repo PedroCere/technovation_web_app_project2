@@ -1,0 +1,2 @@
+# Ignore all application.properties files recursively
+**/application.properties
